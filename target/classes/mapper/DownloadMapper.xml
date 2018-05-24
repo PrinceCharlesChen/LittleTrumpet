@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.littletrumpet.dao.DownloadDao">
+
+    <insert id="insert" parameterType="String">
+        insert into downloadkey (`key`, url) values (#{key}, #{url});
+    </insert>
+    
+    <update id="updateDownloadByKey" parameterType="String">
+       UPDATE downloadkey set `status` = 1 WHERE `key` = #{key}
+    </update>
+
+    <update id="updateStatusByID" parameterType="int">
+        UPDATE downloadkey set `status` = #{status} WHERE `id` = #{id}
+    </update>
+
+    <select id="getOne" parameterType="String" resultType="com.littletrumpet.models.DownloadKey">
+        select `key`, `status`, url, issell from downloadkey where `key` = #{key}
+    </select>
+
+    <select id="getAll" resultType="com.littletrumpet.models.DownloadKey">
+        select `key`, `status`, url, issell from downloadkey where `status` = 0
+    </select>
+
+    <select id="getList" resultType="com.littletrumpet.models.DownloadKey">
+        select `id`, `key`, url, `status`, issell, systime from downloadkey ORDER BY id DESC LIMIT #{number}, #{size}
+    </select>
+
+    <select id="getCount" resultType="int">
+        SELECT count(*) from downloadkey
+    </select>
+
+    <update id="updateIsSellByID" parameterType="int">
+        UPDATE downloadKey set issell = #{issell} where `id` = #{id}
+    </update>
+
+</mapper>
